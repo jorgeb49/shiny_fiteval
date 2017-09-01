@@ -17,7 +17,7 @@ stationary_bootstrap <- function(Yobs, nboot=2000){
   }
   return(ind_matr)
 }
-  kk
+
 
  
 selective_rmse <- function(x,xdata){
