@@ -19,7 +19,7 @@ stationary_bootstrap <- function(Yobs, nboot=2000){
 }
 
 
-
+ 
 selective_rmse <- function(x,xdata){
   return(sqrt(mean((xdata[x,1]-xdata[x,2])^2)))
 }
