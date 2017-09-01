@@ -11,6 +11,8 @@ library(shinythemes)
 #library(ggsci)
 #library(dplyr) 
 
+options <- c('1. Obs. vs. pred.','2. Case 2', '3. Case 3')
+
 shinyApp(
   ui = tagList(
     navbarPage(
@@ -18,31 +20,37 @@ shinyApp(
       "Fiteval",
       tabPanel("Fiteval",
                sidebarPanel(
-               selectInput('sel_series', 'Series of Interest', series_fields),
-               selectInput('sel_stats', 'Series of Interest', series_stats),
-               selectInput('sel_utility', 'Utility', utilities,'Tampa'),
-               selectInput('sel_analysis_start','Start of the Analysis',date_range,selected=date_range[75]),
-               selectInput('sel_analysis_end','End of the Analysis',date_range,selected=date_range[126]),
-               checkboxGroupInput('sel_utility', 'Utilities',
-                                  utilities, selected = 'Tampa')
+               selectInput('sel_input', 'Choose a case', options),
+               tags$small(paste0(
+                 "Note: The Tomato Meter is the proportion of positive reviews",
+                 " (as judged by the Rotten Tomatoes staff), and the Numeric rating is",
+                 " a normalized 1-10 score of those reviews which have star ratings",
+                 " (for example, 3 out of 4 stars)."
+               ))
+               # selectInput('sel_stats', 'Series of Interest', series_stats),
+               # selectInput('sel_utility', 'Utility', utilities,'Tampa'),
+               # selectInput('sel_analysis_start','Start of the Analysis',date_range,selected=date_range[75]),
+               # selectInput('sel_analysis_end','End of the Analysis',date_range,selected=date_range[126]),
+               # checkboxGroupInput('sel_utility', 'Utilities',
+               #                    utilities, selected = 'Tampa')
                ),
                mainPanel(
-                 plotlyOutput("series_plot")
+                 #plotlyOutput("series_plot")
                  # plotOutput('boxchart')
                )
       ),
-      tabPanel("Regression",
-               sidebarPanel(
-                selectInput('smooth_y', 'Variable of Interest (Y axis)', fields, selected='TotalWaterUse'),
-                selectInput('smooth_x', 'Variable of Interest (X axis)', fields, selected='LandArea_Parcel_SF'),
-                selectInput('sel_analysis_start_reg','Start of the Analysis',date_range,selected=date_range[123]),
-                selectInput('sel_analysis_end_reg','End of the Analysis',date_range,selected=date_range[126]),
-                selectInput('sel_analysis_utility', 'Utility', utilities,'Tampa')
-               ),
-                mainPanel(
-                  plotlyOutput("regression_plot")
-                )
-      ),
+      # tabPanel("Regression",
+      #          sidebarPanel(
+      #           selectInput('smooth_y', 'Variable of Interest (Y axis)', fields, selected='TotalWaterUse'),
+      #           selectInput('smooth_x', 'Variable of Interest (X axis)', fields, selected='LandArea_Parcel_SF'),
+      #           selectInput('sel_analysis_start_reg','Start of the Analysis',date_range,selected=date_range[123]),
+      #           selectInput('sel_analysis_end_reg','End of the Analysis',date_range,selected=date_range[126]),
+      #           selectInput('sel_analysis_utility', 'Utility', utilities,'Tampa')
+      #          ),
+      #           mainPanel(
+      #             plotlyOutput("regression_plot")
+      #           )
+      # ),
       tabPanel("About",
                h2("The National Water Quality Monitoring Council has data from 4 different providers, accounting for about 2313283 monitoring locations across the US. NWIS is the provider covering most locations, 1617562, followed by STORET  with 695491 locations. In Florida there is data covering 130695 Monitoring Locations, ~100K from STORET and ~30K from NWIS.
                   (https://www.waterqualitydata.us/portal/#)"))
@@ -98,3 +106,4 @@ shinyApp(
     })
   }
 )
+
