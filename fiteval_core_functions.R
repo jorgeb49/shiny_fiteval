@@ -19,7 +19,7 @@ stationary_bootstrap <- function(Yobs, nboot=2000){
 }
 
 
- 
+
 selective_rmse <- function(x,xdata){
   return(sqrt(mean((xdata[x,1]-xdata[x,2])^2)))
 }
@@ -27,6 +27,7 @@ selective_rmse <- function(x,xdata){
 selective_nse <- function(x,xdata){
   obs=xdata[x,1];
   pred=xdata[x,2];
+  l <- length(obs);
   rmse_x = selective_rmse(x,xdata)
   return(1-rmse_x^2/((sd(obs)^2)*(l-1)/l))
 }
@@ -92,7 +93,7 @@ evaluate_ci <- function(ci,classlim){
     } else{
       t2 <- 'Acceptable'
     }
-    ci_eval <- cat('From',t1,'to',t2)
+    ci_eval <- paste('From',t1,'to',t2,sep=' ')
   }
   return(ci_eval)
 }
@@ -100,15 +101,6 @@ evaluate_ci <- function(ci,classlim){
 
 
 evaluate_bias <- function(Yobs,Ypred,BiasValue){
-  print('Jorge6')
-  print('Yobs')
-  print(head(Yobs))
-  print('Ypred')
-  print(head(Ypred))
-  print('BiasValue')
-  print(head(BiasValue))
-  
-  
   min_data <- min(c(Yobs,Ypred))
   if(min_data<0){
     SHFYP = Ypred - min_data
@@ -123,7 +115,8 @@ evaluate_bias <- function(Yobs,Ypred,BiasValue){
   }else{
     rel_bias = 100*mean(SHFYP-SHFYO)/mSHFYO
   }
-  if(rel_bias < -BiasValue){
+  bias_text<-list()
+  if(rel_bias < (-1*BiasValue)){
     bias_text[1] <- cat('Model Bias: Underprediction by ',rel_bias, '% of the mean')
     bias_text[2] <- 'NSE may be influence by model bias'
     if (real_bias < -500) {
@@ -140,35 +133,4 @@ evaluate_bias <- function(Yobs,Ypred,BiasValue){
     bias_text[2] <- ' '
   }
   return(bias_text)
-}
-
-evaluate_outlier <- function(Yobs,Ypred){
-  err0 <- Yobs-Ypred
-  err <- sort(err0)
-  el <- length(err)
-  Qexp_low <- (err[2]-err[1]) / (err[el]-err[1])
-  Qexp_upp <- (err[el]-err[el-1])/(err[el]-err[1])
-  Qcrit <- 0.187+(2.242-0.187)*(el^-0.862)
-  
-  outlier_c1 <- 0
-  outlier_ind <- c()
-  
-  if(Qexp_low>Qcrit){
-    outlier_c1 <- 1
-    outlier_ind <- c(outlier_ind,which(err0==err[1]))
-  }
-  
-  if (Qexp_upp>Qcrit){
-    outlier_c1 <- outlier_c1 + 1;
-    outlier_ind = c(outlier_ind, which(err0==err[el]));
-  }
-  
-  if (outlier_c1>0) {
-    outlier_txt <- 'Presence of outliers (Q-test): present and maybe affecting indicators'
-    outlier_pt <- data.frame(pred=Ypred[outlier_ind],obs=Yobs[outlier_ind])
-  } else{
-    outlier_txt <- 'Presence of outliers (Q-test): No'
-    outlier_pt <- c()
-  }
-  return(list(txt=outlier_txt,points=outlier_pt))
 }

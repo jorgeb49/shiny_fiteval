@@ -1,5 +1,4 @@
-setwd('C:/Users/jorgeibarrera/Dropbox (UFL)/Fiteval/FITEVAL_R')
-source('blockbootstrap.r')
+source('fiteval_core_functions.R')
 library(ggplot2) 
 
 
@@ -11,7 +10,7 @@ BiasValue <- 5
 
 
 # 1) Read CSV file
-data <- read.table('file:///C:/Users/jorgeibarrera/Dropbox (UFL)/Fiteval/fiteval.in', sep='\t', header=FALSE)
+data <- read.table('fiteval.csv', sep='\t', header=FALSE)
 
 #Remove NAN and repeated values
 #data <- subset(data,(is.numeric(data[,1]))&(is.numeric(data[,1])))
