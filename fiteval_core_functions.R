@@ -117,15 +117,15 @@ evaluate_bias <- function(Yobs,Ypred,BiasValue){
   }
   bias_text<-list()
   if(rel_bias < (-1*BiasValue)){
-    bias_text[1] <- cat('Model Bias: Underprediction by ',rel_bias, '% of the mean')
-    bias_text[2] <- 'NSE may be influence by model bias'
-    if (real_bias < -500) {
+    bias_text[1] <- paste('Model Bias: Underprediction by ',round(rel_bias,2), '% of the mean',sep='')
+    bias_text[2] <- 'NSE may be influenced by model bias'
+    if (rel_bias < -500) {
       bias_text[1] <- 'Model Bias: Underprediction by <-500% of the mean'
     }
   } else if (rel_bias > BiasValue) {
-    bias_text[1] <- cat('Model Bias: Overprediction by ',rel_bias, '% of the mean')
-    bias_text[2] <- 'NSE may be influence by model bias'
-    if (real_bias > 500) {
+    bias_text[1] <- paste('Model Bias: Overprediction by ',round(rel_bias,2), '% of the mean', sep='')
+    bias_text[2] <- 'NSE may be influenced by model bias'
+    if (rel_bias > 500) {
       bias_text[1] <- 'Model Bias: Overprediction by >500% of the mean'
     }
   } else {

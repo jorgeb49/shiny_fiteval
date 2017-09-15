@@ -1,9 +1,15 @@
+
+#setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+#setwd('\bio\web\secure\barrera\apps\fiteval')
 library(ggplot2)
 #library(googleVis)
 library(shiny)
 library(shinythemes)
 library(plotly)
-source('fiteval_core_functions.r')
+library(np)
+library(bootstrap)
+library(DT)
+source('fiteval_core_functions.R')
 classlim <- c(0.65,0.8,0.9)
 options <- c('1. Obs. vs. pred.','2. Case 2', '3. Case 3')
 alpha <- 0.05
@@ -230,6 +236,8 @@ shinyApp(
 
       bias_eval <- evaluate_bias(Yobs=data$Obs,Ypred=data$Pred,BiasValue=input$bias_threshold_input)
       outlier_eval <- evaluate_outlier()
+      
+      print(str(bias_eval))
 
         paste("
               <html>

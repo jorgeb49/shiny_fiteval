@@ -1,3 +1,4 @@
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source('fiteval_core_functions.R')
 library(ggplot2) 
 
